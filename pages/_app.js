@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Header />
-      <main className="p-8 min-h-screen">
+      <main className="px-4 py-8 min-h-screen bg-zinc-900">
         <Component {...pageProps} />
       </main>
       <Footer />
