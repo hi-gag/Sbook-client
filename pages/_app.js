@@ -1,7 +1,15 @@
-import '../styles/globals.css'
+import '../styles/font.css';
+import 'tailwindcss/tailwind.css';
+import 'antd/dist/antd.css';
+import PropTypes from 'prop-types';
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }
 
-export default MyApp
+MyApp.propTypes = {
+  Component: PropTypes.node,
+  pageProps: PropTypes.any.isRequired,
+};
+
+export default MyApp;
