@@ -41,3 +41,4 @@ git push origin ~
 ```
 - component에 fundamental 이라는 디렉토리는 디자인에 입각해서 사용할 수 있는 기본 요소들을 먼저 정의해놓은 디렉토리입니다. antd 컴포넌트를 쓰기 전에 여기서 컴포넌트를 먼저 사용할 수 
   없는지 타진해주세요.
+- 가시성을 보장하기 위해 Antd의 태그(Typography, Space), 시맨틱 태그를 사용해주세용
