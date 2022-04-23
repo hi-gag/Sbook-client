@@ -1,0 +1,57 @@
+export const mockBookmarkListList = [
+  { id: 4, is_owner: 1, is_shared: 1, title: '개발자 문서 모음' },
+  { id: 5, is_owner: 0, is_shared: 1, title: '개발자 문서 모음22' },
+];
+
+export const mockBookmarkList = {
+  id: 0,
+  title: '개발자 문서 모음',
+  is_owner: 1,
+  shared: true,
+  bookmarks: [
+    {
+      id: 1,
+      title: '대학 졸업 직전 프론트엔드 개발자 구직 회고',
+      description: '구직기입니다',
+      img: 'https://maxkim-j.github.io/uploads/default.png',
+      url: 'https://maxkim-j.github.io/posts/job-searching-retrospect',
+      keywords: ['구직', '회고', '대학생'],
+      createdAt: '2022-04-21',
+      importance: 5,
+      memo: '이거 꼭 보세요',
+    },
+    {
+      id: 2,
+      title: '웹 접근성 준수가 가져오는 프론트엔드 개발의 이점',
+      description: '멋진 북마크입니다22',
+      img: '',
+      url: 'https://maxkim-j.github.io/posts/web-accessiblity-virtuous-cycle',
+      keywords: ['RTL', '웹 접근성', '프론트엔드'],
+      createdAt: '2022-04-20',
+      importance: 2,
+      memo: '보시던지 마시던지 하세요',
+    },
+    {
+      id: 3,
+      title: '웹 접근성 준수가 가져오는 프론트엔드 개발의 이점',
+      description: '멋진 북마크입니다22',
+      img: '',
+      url: 'https://maxkim-j.github.io/posts/web-accessiblity-virtuous-cycle',
+      keywords: ['RTL', '웹 접근성', '프론트엔드'],
+      createdAt: '2022-04-20',
+      importance: 2,
+      memo: '보시던지 마시던지 하세요',
+    },
+    {
+      id: 4,
+      title: '웹 접근성 준수가 가져오는 프론트엔드 개발의 이점',
+      description: '멋진 북마크입니다22',
+      img: '',
+      url: 'https://maxkim-j.github.io/posts/web-accessiblity-virtuous-cycle',
+      keywords: ['RTL', '웹 접근성', '프론트엔드'],
+      createdAt: '2022-04-20',
+      importance: 2,
+      memo: '보시던지 마시던지 하세요',
+    },
+  ],
+};

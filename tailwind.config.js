@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   content: ['./pages/**/*.{js,jsx}', './components/**/*.{js,jsx}'],
   theme: {
@@ -7,4 +9,12 @@ module.exports = {
       },
     },
   },
+  plugins: [
+    plugin(({ addBase, theme }) => {
+      addBase({
+        '*': { color: theme('colors.slate.50') },
+        'p': { marginBottom: '0 !important' },
+      });
+    }),
+  ],
 };
