@@ -3,20 +3,30 @@ import Link from 'next/link';
 
 function BookmarkList({ bookmarkListList }) {
   return (
-    <section className="fixed top-18">
-      <div>
-        {bookmarkListList.map((bookmarkListInfo) => (
-          <Link
-            key={bookmarkListInfo.id}
-            href={`/bookmark/${bookmarkListInfo.id}`}
-          >
-            <div className="p-4 bg-zinc-700 mt-4 rounded">
-              {bookmarkListInfo.title}
-            </div>
-          </Link>
-        ))}
+    <section className="container">
+      <div className="fixed top-20">
+        <div className="w-250">
+          {bookmarkListList.map((bookmarkListInfo) => (
+            <Link
+              key={bookmarkListInfo.id}
+              href={`/bookmark/${bookmarkListInfo.id}`}
+            >
+              <div className="p-4 bg-zinc-700 mt-4 rounded button">
+                {bookmarkListInfo.title}
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="p-4 bg-zinc-700 mt-12 rounded">북마크 추가</div>
       </div>
-      <div className="p-4 bg-zinc-700 mt-12 rounded">북마크 추가</div>
+      <style jsx>{`
+        .container {
+          min-width: 180px;
+        }
+        .button {
+          cursor: pointer;
+        }
+      `}</style>
     </section>
   );
 }

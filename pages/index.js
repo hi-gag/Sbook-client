@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Typography, Button, Switch, Input, Space, Card } from 'antd';
+import { Button, Switch, Input, Space } from 'antd';
 
 export default function Home() {
   return (

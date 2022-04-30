@@ -1,10 +1,9 @@
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import { mockBookmarkList, mockBookmarkListList } from '../../mock';
-import { BookmarkCardList } from '../../components/bookmark/BookmarkCardList';
-import { BookmarkList } from '../../components/bookmark/BookmarkList';
-import { Button, Input } from 'antd';
-import BookmarkTitle from '../../components/bookmark/BookmarkTitle';
+import { mockBookmarkList, mockBookmarkListList } from '../../../mock';
+import { BookmarkCardList } from '../../../components/bookmark/BookmarkCardList';
+import { BookmarkList } from '../../../components/bookmark/BookmarkList';
+import { BookmarkTitle } from '../../../components/bookmark/BookmarkTitle';
 
 export async function getServerSideProps(context) {
   const { bookmarkId } = context.query;
@@ -24,9 +23,7 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
         <title>{bookmarkId} 북마크</title>
       </Head>
       <div className="flex w-full mt-16">
-        <div className="w-1/3">
-          <BookmarkList bookmarkListList={bookmarkListList} />
-        </div>
+        <BookmarkList bookmarkListList={bookmarkListList} />
         <div>
           <BookmarkTitle title={bookmarkList.title} />
           <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
