@@ -4,7 +4,7 @@ import BookmarkHeader from './BookmarkHeader';
 
 function BookmarkTitle({ title, shared }) {
   return (
-    <>
+    <section className="container">
       <BookmarkHeader shared={shared} />
       <div className="h-64 flex justify-center">
         <div className="flex flex-col align-center justify-center">
@@ -20,7 +20,13 @@ function BookmarkTitle({ title, shared }) {
           <div className="h-4">문구</div>
         </div>
       </div>
-    </>
+      <style jsx>{`
+        .container {
+          min-width: 1000px;
+          max-width: 1200px;
+        }
+      `}</style>
+    </section>
   );
 }
 

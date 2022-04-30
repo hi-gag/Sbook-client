@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 function BookmarkList({ bookmarkListList }) {
   return (
-    <section className="container">
+    <section className="container w-full">
       <div className="fixed top-20">
         <div className="w-250">
           {bookmarkListList.map((bookmarkListInfo) => (
@@ -21,7 +21,7 @@ function BookmarkList({ bookmarkListList }) {
       </div>
       <style jsx>{`
         .container {
-          min-width: 180px;
+          //width: 180px;
         }
         .button {
           cursor: pointer;

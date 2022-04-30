@@ -23,8 +23,10 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
         <title>{bookmarkId} 북마크</title>
       </Head>
       <div className="flex w-full mt-16">
-        <BookmarkList bookmarkListList={bookmarkListList} />
-        <div>
+        <div className="left">
+          <BookmarkList bookmarkListList={bookmarkListList} />
+        </div>
+        <div className="right">
           <BookmarkTitle
             title={bookmarkList.title}
             shared={bookmarkList.shared}
@@ -32,6 +34,14 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
           <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
         </div>
       </div>
+      <style jsx>{`
+        .left {
+          width: 20%;
+        }
+        .right {
+          width: 80%;
+        }
+      `}</style>
     </>
   );
 }
