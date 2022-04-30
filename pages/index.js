@@ -7,15 +7,15 @@ export default function Home() {
       <Head>
         <title>Sbook</title>
       </Head>
-      <h1 className="text-2xl font-bold underline">랜딩 페이지</h1>
-      <div className="underline">텍스트는 이렇게</div>
-      <div>antd에서 그대로 쓸수 있는거 목록</div>
-      <Space className="w-64" direction="vertical" space={10}>
-        <Button type="primary">버튼</Button>
-        <Switch checkedChildren="켜짐" unCheckedChildren="꺼짐" />
-        <Input value="인풋" />
-        {/* 카드는 하나 새로 만들어야댐 */}
-      </Space>
+      <section className="w-full mt-20 flex-col justify-center align-center">
+        <div className="text-6xl mb-4 text-center">🔖</div>
+        <div className="text-4xl mb-2 font-bold text-center">
+          북마크를 쉽게 작성하고 관리하세요
+        </div>
+        <div className="text-center">
+          공유, 작성, 관심사 기반 유용한 인사이트와 추천까지
+        </div>
+      </section>
     </>
   );
 }
