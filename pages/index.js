@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { Button, Switch, Input, Space } from 'antd';
 
 export default function Home() {
   return (
