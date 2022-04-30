@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useRecoilValue } from 'recoil';
 import { bookmarkViewModeAtom } from '../../../atoms';
 import { useState, useRef, useEffect } from 'react';
+import BookmarkImportance from './BookmarkImportance';
 
 function BookmarkCard({ bookmark }) {
   const viewMode = useRecoilValue(bookmarkViewModeAtom);
@@ -19,23 +20,36 @@ function BookmarkCard({ bookmark }) {
     setIsMemoEditable((s) => !s);
   };
 
+  const removeBookmark = () => {
+    console.log('remove');
+  };
+
   return (
-    <article className="w-fit flex flex-col">
-      <a href={bookmark.url}>
-        <div className="rounded-t-3xl overflow-hidden h-36">
-          {bookmark.img ? (
-            <img className="h-auto" src={bookmark.img} alt="북마크 이미지" />
-          ) : (
-            <div className="bg-zinc-600 w-full h-full flex justify-center">
-              <div className="font-logo text-5xl m-auto">스북</div>
-            </div>
-          )}
-        </div>
-      </a>
+    <article className="w-fit flex flex-col relative">
+      <div className="rounded-t-3xl overflow-hidden h-36">
+        {bookmark.img ? (
+          <img className="h-auto" src={bookmark.img} alt="북마크 이미지" />
+        ) : (
+          <div className="bg-zinc-600 w-full h-full flex justify-center">
+            <div className="font-logo text-5xl m-auto">스북</div>
+          </div>
+        )}
+      </div>
+      <div className="absolute top-3 left-3">
+        <BookmarkImportance importance={bookmark.importance} />
+      </div>
+      <dixv
+        className="absolute top-3 right-3 cursor-pointer"
+        onClick={removeBookmark}
+      >
+        ❌
+      </dixv>
       <div className="bg-zinc-800 px-4 py-2 h-2/4 rounded-b-3xl h-56">
-        <div className="text-lg mb-2.5 font-bold leading-7 h-14">
-          {bookmark.title}
-        </div>
+        <a href={bookmark.url}>
+          <div className="text-lg mb-2.5 font-bold leading-7 h-14">
+            {bookmark.title}
+          </div>
+        </a>
         {viewMode === 'normal' ? (
           <div className="text-xs text-zinc-500 mb-2.5 h-20 min-h-fit">
             {bookmark.description}

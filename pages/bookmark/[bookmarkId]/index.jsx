@@ -25,7 +25,10 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
       <div className="flex w-full mt-16">
         <BookmarkList bookmarkListList={bookmarkListList} />
         <div>
-          <BookmarkTitle title={bookmarkList.title} />
+          <BookmarkTitle
+            title={bookmarkList.title}
+            shared={bookmarkList.shared}
+          />
           <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
         </div>
       </div>
