@@ -1,5 +1,7 @@
 import { Space } from 'antd';
 import Link from 'next/link';
+import "antd/dist/antd.css";
+import ModalBtn from '../form/ModalBtn';
 
 function Header() {
   return (
@@ -11,8 +13,8 @@ function Header() {
       </Link>
 
       <Space className="p-4" space={4}>
-        <div>로그인</div>
-        <div>회원가입</div>
+        <ModalBtn btnName={"로그인"} />
+        <ModalBtn btnName={"회원가입"} />
       </Space>
     </header>
   );
