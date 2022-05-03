@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Form,
   Input,
   Button,
 } from 'antd';
 import "antd/dist/antd.css";
+import axios from "axios";
+import Router from 'next/router';
 
+// antd 레이아웃
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -39,11 +42,33 @@ const tailFormItemLayout = {
 
 
 const SignUpForm = () => {
-  const [form] = Form.useForm();
+  const [errMsg, setErrMsg] = useState(false);
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  // axios
+  const submit = (values) => {
+    const option = {
+      method: "POST",
+      url: "http://34.64.159.191:8081/user/signup",
+      data: values,
+    };
+    axios(option)
+    .then((res) => {
+      console.log(res.data);
+      const status = res.data.code;
+      if (status === "200") { // 회원가입 성공, 토큰 저장
+        const token = res.data.result.token;
+        localStorage.setItem('jwt', token);
+        Router.push('/bookmark')
+      } 
+      else if (status === "409") { // 중복회원 존재
+        setErrMsg(true)
+      }
+    })
+    .catch()
   };
+
+  // form
+  const [form] = Form.useForm();
 
   return (
     
@@ -52,7 +77,7 @@ const SignUpForm = () => {
         {...formItemLayout}
         form={form}
         name="register"
-        onFinish={onFinish}
+        onFinish={submit}
         scrollToFirstError
       >
         <Form.Item
@@ -66,7 +91,11 @@ const SignUpForm = () => {
             {
               max: 15,
               message: '15자 이내의 아이디를 입력해주세요.',
-            }
+            },
+            {
+              validator: () =>
+                errMsg ? Promise.reject(new Error('중복된 아이디입니다.')) : Promise.resolve()
+            },
           ]}
         >
           <Input />
