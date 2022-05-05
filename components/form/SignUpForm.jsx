@@ -1,14 +1,9 @@
-import React, { useState } from 'react'
-import {
-  Form,
-  Input,
-  Button,
-} from 'antd';
-import "antd/dist/antd.css";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Form, Input, Button } from 'antd';
+import 'antd/dist/antd.css';
 import Router from 'next/router';
+import { postSignUp } from '../../api';
 
-// antd 레이아웃
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -40,38 +35,24 @@ const tailFormItemLayout = {
   },
 };
 
-
 const SignUpForm = () => {
   const [errMsg, setErrMsg] = useState(false);
 
-  // axios
-  const submit = (values) => {
-    const option = {
-      method: "POST",
-      url: "http://34.64.159.191:8081/user/signup",
-      data: values,
-    };
-    axios(option)
-    .then((res) => {
-      console.log(res.data);
-      const status = res.data.code;
-      if (status === "200") { // 회원가입 성공, 토큰 저장
-        const token = res.data.result.token;
-        localStorage.setItem('jwt', token);
-        Router.push('/bookmark')
-      } 
-      else if (status === "409") { // 중복회원 존재
-        setErrMsg(true)
-      }
-    })
-    .catch()
+  const submit = async (values) => {
+    try {
+      const {
+        data: { data: token },
+      } = await postSignUp(values);
+      localStorage.setItem('jwt', token);
+      Router.push('/bookmark');
+    } catch (e) {
+      setErrMsg(true);
+    }
   };
 
-  // form
   const [form] = Form.useForm();
 
   return (
-    
     <>
       <Form
         {...formItemLayout}
@@ -94,7 +75,9 @@ const SignUpForm = () => {
             },
             {
               validator: () =>
-                errMsg ? Promise.reject(new Error('중복된 아이디입니다.')) : Promise.resolve()
+                errMsg
+                  ? Promise.reject(new Error('중복된 아이디입니다.'))
+                  : Promise.resolve(),
             },
           ]}
         >
@@ -112,7 +95,7 @@ const SignUpForm = () => {
             {
               min: 10,
               message: '10자 이상의 비밀번호를 입력해주세요.',
-            }
+            },
           ]}
           hasFeedback
         >
@@ -135,7 +118,9 @@ const SignUpForm = () => {
                   return Promise.resolve();
                 }
 
-                return Promise.reject(new Error('비밀번호가 일치하지 않습니다.'));
+                return Promise.reject(
+                  new Error('비밀번호가 일치하지 않습니다.'),
+                );
               },
             }),
           ]}
@@ -155,7 +140,7 @@ const SignUpForm = () => {
             {
               max: 10,
               message: '10자 이하의 닉네임을 입력해주세요.',
-            }
+            },
           ]}
         >
           <Input />
@@ -168,9 +153,7 @@ const SignUpForm = () => {
         </Form.Item>
       </Form>
     </>
+  );
+};
 
-  )
-}
-
-export default SignUpForm
-
+export default SignUpForm;
