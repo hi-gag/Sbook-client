@@ -8,6 +8,7 @@ function BookmarkList({ bookmarkListList }) {
         <div className="w-250">
           {bookmarkListList.map((bookmarkListInfo) => (
             <Link
+              passHref
               key={bookmarkListInfo.id}
               href={`/bookmark/${bookmarkListInfo.id}`}
             >

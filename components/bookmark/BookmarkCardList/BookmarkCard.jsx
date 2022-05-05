@@ -38,12 +38,12 @@ function BookmarkCard({ bookmark }) {
       <div className="absolute top-3 left-3">
         <BookmarkImportance importance={bookmark.importance} />
       </div>
-      <dixv
+      <div
         className="absolute top-3 right-3 cursor-pointer"
         onClick={removeBookmark}
       >
         ❌
-      </dixv>
+      </div>
       <div className="bg-zinc-800 px-4 py-2 h-2/4 rounded-b-3xl h-56">
         <a href={bookmark.url}>
           <div className="text-lg mb-2.5 font-bold leading-7 h-14">

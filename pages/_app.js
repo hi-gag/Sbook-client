@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Header from '../components/@layout/Header';
 import Footer from '../components/@layout/Footer';
 import { RecoilRoot } from 'recoil';
-
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>
