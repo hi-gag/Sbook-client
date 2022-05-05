@@ -1,1 +1,1 @@
-export { bookmarkViewModeAtom } from './bookmarkViewModeAtom';
+export * from './bookmarkViewModeAtom';

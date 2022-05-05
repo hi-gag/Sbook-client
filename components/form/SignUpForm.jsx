@@ -41,9 +41,10 @@ const SignUpForm = () => {
   const submit = async (values) => {
     try {
       const {
-        data: { data: token },
+        data: { data: token, username },
       } = await postSignUp(values);
       localStorage.setItem('jwt', token);
+      localStorage.setItem('username', username);
       Router.push('/bookmark');
     } catch (e) {
       setErrMsg(true);
