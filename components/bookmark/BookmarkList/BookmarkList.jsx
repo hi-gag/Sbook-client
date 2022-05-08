@@ -1,25 +1,46 @@
+import { useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
-function BookmarkList({ bookmarkListList }) {
+function BookmarkList({ bookmarkListList, bookmarkId }) {
   const router = useRouter();
 
+  const scrollRef = useRef(null);
+  useLayoutEffect(() => {
+    if (scrollRef.current) {
+      const elem = bookmarkListList.find((item) => item.id === +bookmarkId);
+      if (elem === undefined) return;
+
+      const index = bookmarkListList.indexOf(elem);
+      scrollRef.current.scrollTo({
+        left: index * 200 - 10,
+        behavior: 'smooth',
+      });
+    }
+  }, [bookmarkId, bookmarkListList]);
+
   return (
-    <section className="mb-8">
+    <section className="mb-8 po-sticky bg-zinc-900 pb-4 pt-4">
       <div className="flex">
         <div className="p-2 mr-4 bg-zinc-600 box font-bold underline">
           북마크 리스트 추가
         </div>
-        <div className="container flex">
-          {bookmarkListList.map((bookmarkListInfo) => (
-            <div
-              key={bookmarkListInfo.id}
-              className="p-2 mr-4 bg-zinc-700 button box"
-              onClick={() => router.push(`/bookmark/${bookmarkListInfo.id}`)}
-            >
-              {bookmarkListInfo.title}
-            </div>
-          ))}
+        <div ref={scrollRef} className="container flex ">
+          {bookmarkListList.map((bookmarkListInfo) => {
+            const backgroundColor =
+              +bookmarkId === bookmarkListInfo.id
+                ? 'bg-zinc-700'
+                : 'bg-zinc-800';
+            return (
+              <div
+                key={bookmarkListInfo.id}
+                className={`p-2 mr-4 button box ${backgroundColor}`}
+                onClick={() => router.push(`/bookmark/${bookmarkListInfo.id}`)}
+              >
+                {bookmarkListInfo.title}
+              </div>
+            );
+          })}
         </div>
       </div>
       <style jsx>{`
@@ -27,6 +48,11 @@ function BookmarkList({ bookmarkListList }) {
           overflow: hidden;
           overflow-x: scroll;
           width: 800px;
+        }
+        .po-sticky {
+          position: sticky;
+          top: 68px;
+          z-index: 10;
         }
         .container::-webkit-scrollbar {
           display: none;
@@ -49,6 +75,7 @@ function BookmarkList({ bookmarkListList }) {
 
 BookmarkList.propTypes = {
   bookmarkListList: PropTypes.array.isRequired,
+  bookmarkId: PropTypes.string.isRequired,
 };
 
 export default BookmarkList;

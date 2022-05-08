@@ -3,7 +3,7 @@ import BookmarkCard from './BookmarkCard';
 
 function BookmarkCardList({ bookmarks }) {
   return (
-    <section className="grid gap-4 grid-cols-3 container">
+    <section className="grid gap-4 grid-cols-3 container pt-12">
       {bookmarks.map((bookmark) => (
         <BookmarkCard key={bookmark.id} bookmark={bookmark} />
       ))}

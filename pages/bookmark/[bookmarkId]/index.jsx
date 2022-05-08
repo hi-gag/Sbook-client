@@ -25,7 +25,10 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
       </Head>
       <div className="flex justify-center w-full mt-16 container">
         <div className="content-wrapper">
-          <BookmarkList bookmarkListList={bookmarkListList} />
+          <BookmarkList
+            bookmarkListList={bookmarkListList}
+            bookmarkId={bookmarkId}
+          />
           <BookmarkTitle title={bookmarkList.title} />
           <BookmarkHeader shared={bookmarkList.shared} />
           <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
