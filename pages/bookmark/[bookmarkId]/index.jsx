@@ -22,8 +22,8 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
       <Head>
         <title>{bookmarkId} 북마크</title>
       </Head>
-      <div className="flex justify-center w-full mt-16">
-        <div className="right">
+      <div className="flex justify-center w-full mt-16 container">
+        <div className="content-wrapper">
           <BookmarkList bookmarkListList={bookmarkListList} />
           <BookmarkTitle
             title={bookmarkList.title}
@@ -33,7 +33,10 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
         </div>
       </div>
       <style jsx>{`
-        .right {
+        .container {
+          min-height: 1300px;
+        }
+        .content-wrapper {
           display: flex;
           flex-direction: column;
           align-items: center;
