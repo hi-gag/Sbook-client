@@ -4,6 +4,7 @@ import { mockBookmarkList, mockBookmarkListList } from '../../../mock';
 import { BookmarkCardList } from '../../../components/bookmark/BookmarkCardList';
 import { BookmarkTitle } from '../../../components/bookmark/BookmarkTitle';
 import { BookmarkList } from '../../../components/bookmark/BookmarkList';
+import BookmarkHeader from '../../../components/bookmark/BookmarkTitle/BookmarkHeader';
 
 export async function getServerSideProps(context) {
   const { bookmarkId } = context.query;
@@ -25,21 +26,15 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
       <div className="flex justify-center w-full mt-16 container">
         <div className="content-wrapper">
           <BookmarkList bookmarkListList={bookmarkListList} />
-          <BookmarkTitle
-            title={bookmarkList.title}
-            shared={bookmarkList.shared}
-          />
+          <BookmarkTitle title={bookmarkList.title} />
+          <BookmarkHeader shared={bookmarkList.shared} />
           <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
         </div>
       </div>
       <style jsx>{`
         .container {
           min-height: 1300px;
-        }
-        .content-wrapper {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          margin: 70px auto;
         }
       `}</style>
     </>

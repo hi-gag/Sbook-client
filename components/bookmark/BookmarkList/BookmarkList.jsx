@@ -8,7 +8,7 @@ function BookmarkList({ bookmarkListList }) {
     <section className="mb-8">
       <div className="flex">
         <div className="p-2 mr-4 bg-zinc-600 box font-bold underline">
-          북마크 추가
+          북마크 리스트 추가
         </div>
         <div className="container flex">
           {bookmarkListList.map((bookmarkListInfo) => (

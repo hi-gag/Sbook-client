@@ -13,7 +13,7 @@ function BookmarkHeader({ shared }) {
     setViewMode((mode) => (mode === 'normal' ? 'memo' : 'normal'));
   };
   return (
-    <section className="w-full flex justify-between">
+    <section className="bg-zinc-900 w-full pt-2 pb-2 flex justify-between align-center  po-sticky">
       <div className="flex justify-between">
         <Checkbox defaultChecked={shared} />
         <div className="ml-2">공유 여부</div>
@@ -31,6 +31,13 @@ function BookmarkHeader({ shared }) {
           <Button type="primary">인사이트</Button>
         </Link>
       </div>
+      <style jsx>{`
+        .po-sticky {
+          position: sticky;
+          top: 68px;
+          z-index: 10;
+        }
+      `}</style>
     </section>
   );
 }

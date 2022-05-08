@@ -1,11 +1,9 @@
 import { Button, Input } from 'antd';
 import PropTypes from 'prop-types';
-import BookmarkHeader from './BookmarkHeader';
 
-function BookmarkTitle({ title, shared }) {
+function BookmarkTitle({ title }) {
   return (
-    <section className="container">
-      <BookmarkHeader shared={shared} />
+    <section className="container ">
       <div className="h-64 flex justify-center">
         <div className="flex flex-col align-center justify-center">
           <div className="text-4xl font-bold mb-4 text-center">{title}</div>
@@ -32,7 +30,6 @@ function BookmarkTitle({ title, shared }) {
 
 BookmarkTitle.propTypes = {
   title: PropTypes.string.isRequired,
-  shared: PropTypes.bool.isRequired,
 };
 
 export default BookmarkTitle;
