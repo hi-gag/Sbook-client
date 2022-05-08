@@ -1,27 +1,43 @@
 import PropTypes from 'prop-types';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function BookmarkList({ bookmarkListList }) {
+  const router = useRouter();
+
   return (
-    <section className="container w-full">
-      <div className="fixed top-20">
-        <div className="w-250">
+    <section className="mb-8">
+      <div className="flex">
+        <div className="p-2 mr-4 bg-zinc-600 box font-bold underline">
+          북마크 추가
+        </div>
+        <div className="container flex">
           {bookmarkListList.map((bookmarkListInfo) => (
-            <Link
+            <div
               key={bookmarkListInfo.id}
-              href={`/bookmark/${bookmarkListInfo.id}`}
+              className="p-2 mr-4 bg-zinc-700 button box"
+              onClick={() => router.push(`/bookmark/${bookmarkListInfo.id}`)}
             >
-              <div className="p-4 bg-zinc-700 mt-4 rounded button">
-                {bookmarkListInfo.title}
-              </div>
-            </Link>
+              {bookmarkListInfo.title}
+            </div>
           ))}
         </div>
-        <div className="p-4 bg-zinc-700 mt-12 rounded">북마크 추가</div>
       </div>
       <style jsx>{`
         .container {
-          //width: 180px;
+          overflow: hidden;
+          overflow-x: scroll;
+          width: 800px;
+        }
+        .container::-webkit-scrollbar {
+          display: none;
+        }
+        .box {
+          min-width: 180px;
+          text-align: center;
+          border-radius: 20px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .button {
           cursor: pointer;

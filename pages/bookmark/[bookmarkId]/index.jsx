@@ -2,8 +2,8 @@ import Head from 'next/head';
 import PropTypes from 'prop-types';
 import { mockBookmarkList, mockBookmarkListList } from '../../../mock';
 import { BookmarkCardList } from '../../../components/bookmark/BookmarkCardList';
-import { BookmarkList } from '../../../components/bookmark/BookmarkList';
 import { BookmarkTitle } from '../../../components/bookmark/BookmarkTitle';
+import { BookmarkList } from '../../../components/bookmark/BookmarkList';
 
 export async function getServerSideProps(context) {
   const { bookmarkId } = context.query;
@@ -22,11 +22,9 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
       <Head>
         <title>{bookmarkId} 북마크</title>
       </Head>
-      <div className="flex w-full mt-16">
-        <div className="left">
-          <BookmarkList bookmarkListList={bookmarkListList} />
-        </div>
+      <div className="flex justify-center w-full mt-16">
         <div className="right">
+          <BookmarkList bookmarkListList={bookmarkListList} />
           <BookmarkTitle
             title={bookmarkList.title}
             shared={bookmarkList.shared}
@@ -35,11 +33,10 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
         </div>
       </div>
       <style jsx>{`
-        .left {
-          width: 20%;
-        }
         .right {
-          width: 80%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
       `}</style>
     </>

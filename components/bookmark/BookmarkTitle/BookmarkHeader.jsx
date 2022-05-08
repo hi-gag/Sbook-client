@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 
 function BookmarkHeader({ shared }) {
   const router = useRouter();
-  console.log();
   const [viewMode, setViewMode] = useRecoilState(bookmarkViewModeAtom);
 
   const handleChange = () => {
