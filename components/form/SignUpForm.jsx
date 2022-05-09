@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { postSignUp } from '../../api';
+import LoginForm from './LoginForm';
+import PropTypes from 'prop-types';
 
 const formItemLayout = {
   labelCol: {
@@ -35,17 +37,22 @@ const tailFormItemLayout = {
   },
 };
 
-const SignUpForm = () => {
+const SignUpForm = ({ handleClose }) => {
   const [errMsg, setErrMsg] = useState(false);
+  const router = useRouter();
 
   const submit = async (values) => {
     try {
-      const {
-        data: { data: token, username },
-      } = await postSignUp(values);
-      localStorage.setItem('jwt', token);
-      localStorage.setItem('username', username);
-      Router.push('/bookmark');
+      // const {
+      //   data: { data: token, username },
+      // } = await postSignUp(values);
+      // localStorage.setItem('jwt', token);
+      // localStorage.setItem('username', username);
+
+      window.sessionStorage.setItem('jwt', 'token');
+      window.sessionStorage.setItem('username', '유저');
+      handleClose();
+      router.reload('/bookmark');
     } catch (e) {
       setErrMsg(true);
     }
@@ -155,6 +162,10 @@ const SignUpForm = () => {
       </Form>
     </>
   );
+};
+
+SignUpForm.propTypes = {
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default SignUpForm;

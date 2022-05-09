@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { postLogin } from '../../api';
+import ModalBtn from './ModalBtn';
+import PropTypes from 'prop-types';
 
 const formItemLayout = {
   labelCol: {
@@ -35,18 +37,24 @@ const tailFormItemLayout = {
   },
 };
 
-const LoginForm = () => {
+const LoginForm = ({ handleClose }) => {
   const [errMsg, setErrMsg] = useState(false);
+  const router = useRouter();
 
   const submit = async (values) => {
     try {
-      const {
-        data: { data: token, username },
-      } = await postLogin(values);
+      // const {
+      //   data: { data: token, username },
+      // } = await postLogin(values);
 
-      localStorage.setItem('jwt', token);
-      localStorage.setItem('username', username);
-      Router.push('/bookmark');
+      // localStorage.setItem('jwt', token);
+      // localStorage.setItem('jwt', token);
+      // localStorage.setItem('username', username);
+
+      window.sessionStorage.setItem('jwt', 'token');
+      window.sessionStorage.setItem('username', '유저');
+      handleClose();
+      router.reload('/bookmark');
     } catch (e) {
       console.log(e);
       setErrMsg(true);
@@ -112,6 +120,10 @@ const LoginForm = () => {
       </Form>
     </>
   );
+};
+
+LoginForm.propTypes = {
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

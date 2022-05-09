@@ -15,7 +15,7 @@ function BookmarkHeader({ shared }) {
   return (
     <section className="bg-zinc-900 w-full pt-8 pb-6 mb-4 flex justify-between align-center po-sticky">
       <div className="section-width">
-        <Checkbox defaultChecked={shared} />
+        <Checkbox checked={shared} />
         <span className="ml-2">공유 여부</span>
       </div>
 

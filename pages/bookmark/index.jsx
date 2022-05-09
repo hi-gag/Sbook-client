@@ -1,24 +1,18 @@
-import Head from 'next/head';
 import { useState, useEffect } from 'react';
+import Head from 'next/head';
 import PropTypes from 'prop-types';
-import { mockBookmarkList, mockBookmarkListList } from '../../../mock';
-import { BookmarkCardList } from '../../../components/bookmark/BookmarkCardList';
-import { BookmarkTitle } from '../../../components/bookmark/BookmarkTitle';
-import { BookmarkList } from '../../../components/bookmark/BookmarkList';
-import BookmarkHeader from '../../../components/bookmark/BookmarkTitle/BookmarkHeader';
+import { mockBookmarkListList } from '../../mock';
+import { BookmarkList } from '../../components/bookmark/BookmarkList';
 
-export async function getServerSideProps(context) {
-  const { bookmarkId } = context.query;
+export async function getServerSideProps() {
   return {
     props: {
-      bookmarkId,
-      bookmarkList: mockBookmarkList[bookmarkId],
       bookmarkListList: mockBookmarkListList,
     },
   };
 }
 
-function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
+function BookmarkDetail({ bookmarkId, bookmarkListList }) {
   const [auth, setAuth] = useState({
     username: '',
     isAuth: false,
@@ -41,18 +35,18 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
       </Head>
       <div className="flex justify-center w-full mt-16 container">
         <div className="content-wrapper">
-          {!bookmarkList.shared && !auth.isAuth ? (
-            <div>이 북마크는 공유되어 있지 않습니다</div>
-          ) : (
+          {auth.isAuth ? (
             <>
               <BookmarkList
                 bookmarkListList={bookmarkListList}
                 bookmarkId={bookmarkId}
               />
-              <BookmarkTitle title={bookmarkList.title} />
-              <BookmarkHeader shared={bookmarkList.shared} />
-              <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
+              <div className="text-center text-xl">
+                상단의 북마크를 선택해주세요
+              </div>
             </>
+          ) : (
+            <div className="text-center text-xl">로그인 해주세요</div>
           )}
         </div>
       </div>
@@ -68,7 +62,6 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
 
 BookmarkDetail.propTypes = {
   bookmarkId: PropTypes.string,
-  bookmarkList: PropTypes.array,
   bookmarkListList: PropTypes.array,
 };
 
