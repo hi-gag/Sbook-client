@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { useRouter } from 'next/router';
-import { postSignUp } from '../../api';
-import LoginForm from './LoginForm';
 import PropTypes from 'prop-types';
 
 const formItemLayout = {
@@ -41,7 +39,7 @@ const SignUpForm = ({ handleClose }) => {
   const [errMsg, setErrMsg] = useState(false);
   const router = useRouter();
 
-  const submit = async (values) => {
+  const submit = async () => {
     try {
       // const {
       //   data: { data: token, username },
