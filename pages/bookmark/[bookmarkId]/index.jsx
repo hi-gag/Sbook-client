@@ -5,6 +5,8 @@ import { BookmarkCardList } from '../../../components/bookmark/BookmarkCardList'
 import { BookmarkTitle } from '../../../components/bookmark/BookmarkTitle';
 import { BookmarkList } from '../../../components/bookmark/BookmarkList';
 import BookmarkHeader from '../../../components/bookmark/BookmarkTitle/BookmarkHeader';
+import { useQuery } from 'react-query';
+import { getBookmarkList, getBookmark } from '../../../api';
 
 export async function getServerSideProps(context) {
   const { bookmarkId } = context.query;
@@ -17,7 +19,28 @@ export async function getServerSideProps(context) {
   };
 }
 
-function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
+function BookmarkDetail({ bookmarkId }) {
+  const {
+    data: { results: bookmarkListList },
+    isLoading: isBookmarkListListLoading,
+    isError: isBookmarkListListError,
+  } = useQuery({
+    queryFn: () => {
+      const token = window.localStorage?.jwt ?? '';
+      return getBookmarkList(token);
+    },
+  });
+
+  const {
+    data: { data: bookmarkList },
+    isLoading: isBookmarkListLoading,
+    isError: isBookmarkListError,
+  } = useQuery({
+    queryFn: () => {
+      const token = window.localStorage?.jwt ?? '';
+      return getBookmark(token, bookmarkId);
+    },
+  });
   return (
     <>
       <Head>
@@ -25,13 +48,19 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
       </Head>
       <div className="flex justify-center w-full mt-16 container">
         <div className="content-wrapper">
-          <BookmarkList
-            bookmarkListList={bookmarkListList}
-            bookmarkId={bookmarkId}
-          />
-          <BookmarkTitle title={bookmarkList.title} />
-          <BookmarkHeader shared={bookmarkList.shared} />
-          <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
+          {!isBookmarkListListLoading && !isBookmarkListListError && (
+            <BookmarkList
+              bookmarkListList={bookmarkListList}
+              bookmarkId={bookmarkId}
+            />
+          )}
+          {!isBookmarkListLoading && !isBookmarkListError && (
+            <>
+              <BookmarkTitle title={bookmarkList.title} />
+              <BookmarkHeader shared={bookmarkList.is_shared} />
+              <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
+            </>
+          )}
         </div>
       </div>
       <style jsx>{`
@@ -46,8 +75,6 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
 
 BookmarkDetail.propTypes = {
   bookmarkId: PropTypes.string,
-  bookmarkList: PropTypes.array,
-  bookmarkListList: PropTypes.array,
 };
 
 export default BookmarkDetail;

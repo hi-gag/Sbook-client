@@ -5,14 +5,19 @@ import PropTypes from 'prop-types';
 import Header from '../components/@layout/Header';
 import Footer from '../components/@layout/Footer';
 import { RecoilRoot } from 'recoil';
+import { QueryClientProvider, QueryClient } from 'react-query';
+
+const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>
-      <Header />
-      <main className="px-32 py-8 min-h-screen bg-zinc-900">
-        <Component {...pageProps} />
-      </main>
-      <Footer />
+      <QueryClientProvider client={queryClient}>
+        <Header />
+        <main className="px-32 py-8 min-h-screen bg-zinc-900">
+          <Component {...pageProps} />
+        </main>
+        <Footer />
+      </QueryClientProvider>
     </RecoilRoot>
   );
 }

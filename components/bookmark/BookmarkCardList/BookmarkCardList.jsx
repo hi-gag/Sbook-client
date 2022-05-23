@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import BookmarkCard from './BookmarkCard';
 
 function BookmarkCardList({ bookmarks }) {
+  // todo id 받아서 토픽서버 키워드 받아오기
   return (
     <section className="grid gap-4 grid-cols-3 container pt-12">
       {bookmarks.map((bookmark) => (
