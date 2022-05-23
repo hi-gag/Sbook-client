@@ -11,8 +11,8 @@ function Header() {
   });
 
   useEffect(() => {
-    const jwt = window.localStorage.getItem('jwt');
-    const username = window.localStorage.getItem('username');
+    const jwt = window.sessionStorage.getItem('jwt');
+    const username = window.sessionStorage.getItem('username');
 
     setAuth({
       username,

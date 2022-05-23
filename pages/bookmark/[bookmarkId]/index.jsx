@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { mockBookmarkList, mockBookmarkListList } from '../../../mock';
 import { BookmarkCardList } from '../../../components/bookmark/BookmarkCardList';
@@ -13,13 +14,30 @@ export async function getServerSideProps(context) {
   return {
     props: {
       bookmarkId,
-      bookmarkList: mockBookmarkList,
+      bookmarkList: mockBookmarkList[bookmarkId],
       bookmarkListList: mockBookmarkListList,
     },
   };
 }
 
 function BookmarkDetail({ bookmarkId }) {
+  const [auth, setAuth] = useState({
+    username: '',
+    isAuth: false,
+  });
+
+  useEffect(() => {
+    const jwt = window.sessionStorage.getItem('jwt');
+    const username = window.sessionStorage.getItem('username');
+
+    setAuth({
+      username,
+      isAuth: jwt != null,
+    });
+  }, []);
+
+  console.log(auth, '인증여부');
+
   const {
     data: { results: bookmarkListList },
     isLoading: isBookmarkListListLoading,
@@ -41,6 +59,7 @@ function BookmarkDetail({ bookmarkId }) {
       return getBookmark(token, bookmarkId);
     },
   });
+
   return (
     <>
       <Head>
