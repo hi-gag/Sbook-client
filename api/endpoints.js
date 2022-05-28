@@ -1,4 +1,4 @@
-import axiosClient from './axiosClient';
+import axiosClient, { axiosTopicClient } from './axiosClient';
 
 export const postSignUp = (signupBody) =>
   axiosClient.post('/user/signup', {
@@ -11,11 +11,14 @@ export const postLogin = (loginBody) =>
   });
 
 export const getBookmarkList = (token) =>
-  axiosClient.get('bookmarks', {
+  axiosClient.get('/bookmarks', {
     headers: { Authorization: token },
   });
 
 export const getBookmark = (token, bookmarkId) =>
-  axiosClient.get(`bookmarks/${bookmarkId}`, {
+  axiosClient.get(`/bookmarks/${bookmarkId}`, {
     headers: { Authorization: token },
   });
+
+export const getInsights = (bookmarkId) =>
+  axiosTopicClient.get(`/bookmark/${bookmarkId}/recommends`);

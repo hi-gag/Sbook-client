@@ -4,7 +4,7 @@ import { bookmarkViewModeAtom } from '../../../atoms';
 import { useState, useRef, useEffect } from 'react';
 import BookmarkImportance from './BookmarkImportance';
 
-function BookmarkCard({ bookmark }) {
+function BookmarkCard({ bookmark, insightMode = false }) {
   const viewMode = useRecoilValue(bookmarkViewModeAtom);
   const [isMemoEditable, setIsMemoEditable] = useState(false);
 
@@ -36,15 +36,20 @@ function BookmarkCard({ bookmark }) {
           </div>
         )}
       </div>
-      <div className="absolute top-3 left-3">
-        <BookmarkImportance importance={bookmark.importance} />
-      </div>
-      <div
-        className="absolute top-3 right-3 cursor-pointer"
-        onClick={removeBookmark}
-      >
-        ❌
-      </div>
+      {!insightMode && (
+        <div className="absolute top-3 left-3">
+          <BookmarkImportance importance={bookmark.importance} />
+        </div>
+      )}
+      {!insightMode && (
+        <div
+          className="absolute top-3 right-3 cursor-pointer"
+          onClick={removeBookmark}
+        >
+          ❌
+        </div>
+      )}
+
       <div className="bg-zinc-800 px-4 py-2 h-2/4 rounded-b-3xl h-56">
         <a href={bookmark.url}>
           <div className="text-lg mb-2.5 font-bold leading-7 h-14">
@@ -68,23 +73,29 @@ function BookmarkCard({ bookmark }) {
             )}
           </div>
         )}
+        {!insightMode && (
+          <div className="text-xs mb-2.5">
+            {bookmark.keywords.map((keyword, index) => (
+              <span key={index}>#{keyword} </span>
+            ))}
+          </div>
+        )}
 
-        <div className="text-xs mb-2.5">
-          {bookmark.keywords.map((keyword, index) => (
-            <span key={index}>#{keyword} </span>
-          ))}
-        </div>
-        {viewMode === 'normal' ? (
-          <div className="text-xs text-zinc-500">
-            추가된 날짜 : {bookmark.createdAt}
-          </div>
-        ) : (
-          <div
-            onClick={handleMemoEditableButtonClick}
-            className="text-xs text-zinc-500 cursor-pointer"
-          >
-            {isMemoEditable ? '메모 수정 완료' : '🔖 메모 수정하기'}
-          </div>
+        {!insightMode && (
+          <>
+            {viewMode === 'normal' ? (
+              <div className="text-xs text-zinc-500">
+                추가된 날짜 : {bookmark.createdAt}
+              </div>
+            ) : (
+              <div
+                onClick={handleMemoEditableButtonClick}
+                className="text-xs text-zinc-500 cursor-pointer"
+              >
+                {isMemoEditable ? '메모 수정 완료' : '🔖 메모 수정하기'}
+              </div>
+            )}
+          </>
         )}
       </div>
     </article>
@@ -93,6 +104,7 @@ function BookmarkCard({ bookmark }) {
 
 BookmarkCard.propTypes = {
   bookmark: PropTypes.object.isRequired,
+  insightMode: PropTypes.bool,
 };
 
 export default BookmarkCard;
