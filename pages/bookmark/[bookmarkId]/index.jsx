@@ -2,12 +2,7 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { mockBookmarkList, mockBookmarkListList } from '../../../mock';
-import { BookmarkCardList } from '../../../components/bookmark/BookmarkCardList';
-import { BookmarkTitle } from '../../../components/bookmark/BookmarkTitle';
-import { BookmarkList } from '../../../components/bookmark/BookmarkList';
-import BookmarkHeader from '../../../components/bookmark/BookmarkTitle/BookmarkHeader';
-import { useQuery } from 'react-query';
-import { getBookmarkList, getBookmark } from '../../../api';
+import BookmarkMain from '../../../components/bookmark/BookmarkMain';
 
 export async function getServerSideProps(context) {
   const { bookmarkId } = context.query;
@@ -21,6 +16,7 @@ export async function getServerSideProps(context) {
 }
 
 function BookmarkDetail({ bookmarkId }) {
+  const [render, setRender] = useState(false);
   const [auth, setAuth] = useState({
     username: '',
     isAuth: false,
@@ -36,29 +32,9 @@ function BookmarkDetail({ bookmarkId }) {
     });
   }, []);
 
-  console.log(auth, '인증여부');
-
-  const {
-    data: { results: bookmarkListList },
-    isLoading: isBookmarkListListLoading,
-    isError: isBookmarkListListError,
-  } = useQuery({
-    queryFn: () => {
-      const token = window.localStorage?.jwt ?? '';
-      return getBookmarkList(token);
-    },
-  });
-
-  const {
-    data: { data: bookmarkList },
-    isLoading: isBookmarkListLoading,
-    isError: isBookmarkListError,
-  } = useQuery({
-    queryFn: () => {
-      const token = window.localStorage?.jwt ?? '';
-      return getBookmark(token, bookmarkId);
-    },
-  });
+  useEffect(() => {
+    setRender(true);
+  }, []);
 
   return (
     <>
@@ -66,21 +42,7 @@ function BookmarkDetail({ bookmarkId }) {
         <title>{bookmarkId} 북마크</title>
       </Head>
       <div className="flex justify-center w-full mt-16 container">
-        <div className="content-wrapper">
-          {!isBookmarkListListLoading && !isBookmarkListListError && (
-            <BookmarkList
-              bookmarkListList={bookmarkListList}
-              bookmarkId={bookmarkId}
-            />
-          )}
-          {!isBookmarkListLoading && !isBookmarkListError && (
-            <>
-              <BookmarkTitle title={bookmarkList.title} />
-              <BookmarkHeader shared={bookmarkList.is_shared} />
-              <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
-            </>
-          )}
-        </div>
+        {render && auth && <BookmarkMain bookmarkId={bookmarkId} />}
       </div>
       <style jsx>{`
         .container {
