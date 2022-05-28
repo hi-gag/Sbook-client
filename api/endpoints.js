@@ -9,3 +9,13 @@ export const postLogin = (loginBody) =>
   axiosClient.post('/user/login', {
     loginBody,
   });
+
+export const getBookmarkList = (token) =>
+  axiosClient.get('bookmarks', {
+    headers: { Authorization: token },
+  });
+
+export const getBookmark = (token, bookmarkId) =>
+  axiosClient.get(`bookmarks/${bookmarkId}`, {
+    headers: { Authorization: token },
+  });

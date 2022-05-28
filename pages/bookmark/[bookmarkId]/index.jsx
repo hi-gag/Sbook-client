@@ -2,10 +2,7 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { mockBookmarkList, mockBookmarkListList } from '../../../mock';
-import { BookmarkCardList } from '../../../components/bookmark/BookmarkCardList';
-import { BookmarkTitle } from '../../../components/bookmark/BookmarkTitle';
-import { BookmarkList } from '../../../components/bookmark/BookmarkList';
-import BookmarkHeader from '../../../components/bookmark/BookmarkTitle/BookmarkHeader';
+import BookmarkMain from '../../../components/bookmark/BookmarkMain';
 
 export async function getServerSideProps(context) {
   const { bookmarkId } = context.query;
@@ -18,7 +15,8 @@ export async function getServerSideProps(context) {
   };
 }
 
-function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
+function BookmarkDetail({ bookmarkId }) {
+  const [render, setRender] = useState(false);
   const [auth, setAuth] = useState({
     username: '',
     isAuth: false,
@@ -34,27 +32,17 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
     });
   }, []);
 
+  useEffect(() => {
+    setRender(true);
+  }, []);
+
   return (
     <>
       <Head>
         <title>{bookmarkId} 북마크</title>
       </Head>
       <div className="flex justify-center w-full mt-16 container">
-        <div className="content-wrapper">
-          {!bookmarkList.shared && !auth.isAuth ? (
-            <div>이 북마크는 공유되어 있지 않습니다</div>
-          ) : (
-            <>
-              <BookmarkList
-                bookmarkListList={bookmarkListList}
-                bookmarkId={bookmarkId}
-              />
-              <BookmarkTitle title={bookmarkList.title} />
-              <BookmarkHeader shared={bookmarkList.shared} />
-              <BookmarkCardList bookmarks={bookmarkList.bookmarks} />
-            </>
-          )}
-        </div>
+        {render && auth && <BookmarkMain bookmarkId={bookmarkId} />}
       </div>
       <style jsx>{`
         .container {
@@ -68,8 +56,6 @@ function BookmarkDetail({ bookmarkId, bookmarkList, bookmarkListList }) {
 
 BookmarkDetail.propTypes = {
   bookmarkId: PropTypes.string,
-  bookmarkList: PropTypes.array,
-  bookmarkListList: PropTypes.array,
 };
 
 export default BookmarkDetail;

@@ -22,6 +22,7 @@ function BookmarkCard({ bookmark }) {
 
   const removeBookmark = () => {
     console.log('remove');
+    // 삭제 mutation
   };
 
   return (
