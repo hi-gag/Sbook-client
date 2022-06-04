@@ -22,3 +22,12 @@ export const getBookmark = (token, bookmarkId) =>
 
 export const getInsights = (bookmarkId) =>
   axiosTopicClient.get(`/bookmark/${bookmarkId}/recommends`);
+
+export const postBookmarkLists = (token, bookmarkListsBody) =>
+  axiosClient.post(
+    `/bookmarks`,
+    { ...bookmarkListsBody },
+    {
+      headers: { Authorization: token },
+    },
+  );

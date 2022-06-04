@@ -1,9 +1,12 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
+import BookmarkAddModal from './BookmarkAddModal';
 
 function BookmarkList({ bookmarkListList, bookmarkId }) {
   const router = useRouter();
+
+  const [isShowModal, setIsShowModal] = useState(false);
 
   const scrollRef = useRef(null);
   useLayoutEffect(() => {
@@ -19,12 +22,22 @@ function BookmarkList({ bookmarkListList, bookmarkId }) {
     }
   }, [bookmarkId, bookmarkListList]);
 
+  const closeModal = () => {
+    setIsShowModal(false);
+  };
+
   return (
     <section className="mb-8 po-sticky bg-zinc-900 pb-4 pt-4">
       <div className="flex">
-        <div className="p-2 mr-4 bg-zinc-600 box font-bold underline">
+        <div
+          className="p-2 mr-4 bg-zinc-600 box font-bold underline"
+          onClick={() => {
+            setIsShowModal(true);
+          }}
+        >
           북마크 리스트 추가
         </div>
+        <BookmarkAddModal isVisible={isShowModal} handleClose={closeModal} />
         <div ref={scrollRef} className="container flex ">
           {bookmarkListList.map((bookmarkListInfo) => {
             const backgroundColor =
