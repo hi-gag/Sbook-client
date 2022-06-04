@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+import { postLogin } from '../../api';
 
 const formItemLayout = {
   labelCol: {
@@ -39,18 +40,16 @@ const LoginForm = ({ handleClose }) => {
   const [errMsg, setErrMsg] = useState(false);
   const router = useRouter();
 
+  const [form] = Form.useForm();
+
   const submit = async () => {
     try {
-      // const {
-      //   data: { data: token, username },
-      // } = await postLogin(values);
+      const values = form.getFieldValue();
+      const { data } = await postLogin(values);
 
-      // localStorage.setItem('jwt', token);
-      // localStorage.setItem('jwt', token);
-      // localStorage.setItem('username', username);
+      window.localStorage.setItem('jwt', data.data.token);
+      window.localStorage.setItem('username', data.data.username);
 
-      window.sessionStorage.setItem('jwt', 'token');
-      window.sessionStorage.setItem('username', '유저');
       handleClose();
       router.reload('/bookmark');
     } catch (e) {
@@ -59,8 +58,6 @@ const LoginForm = ({ handleClose }) => {
     }
   };
 
-  const [form] = Form.useForm();
-
   return (
     <>
       <Form
@@ -68,7 +65,6 @@ const LoginForm = ({ handleClose }) => {
         form={form}
         name="register"
         onFinish={submit}
-        // onFinish={onFinish}
         scrollToFirstError
       >
         <Form.Item

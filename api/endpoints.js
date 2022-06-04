@@ -2,12 +2,12 @@ import axiosClient, { axiosTopicClient } from './axiosClient';
 
 export const postSignUp = (signupBody) =>
   axiosClient.post('/user/signup', {
-    signupBody,
+    ...signupBody,
   });
 
 export const postLogin = (loginBody) =>
   axiosClient.post('/user/login', {
-    loginBody,
+    ...loginBody,
   });
 
 export const getBookmarkList = (token) =>

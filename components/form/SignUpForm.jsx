@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+import { postSignUp } from '../../api';
 
 const formItemLayout = {
   labelCol: {
@@ -36,27 +37,24 @@ const tailFormItemLayout = {
 };
 
 const SignUpForm = ({ handleClose }) => {
-  const [errMsg, setErrMsg] = useState(false);
   const router = useRouter();
+  const [form] = Form.useForm();
 
   const submit = async () => {
-    try {
-      // const {
-      //   data: { data: token, username },
-      // } = await postSignUp(values);
-      // localStorage.setItem('jwt', token);
-      // localStorage.setItem('username', username);
+    const { username, password, email } = form.getFieldValue();
 
-      window.sessionStorage.setItem('jwt', 'token');
-      window.sessionStorage.setItem('username', '유저');
-      handleClose();
-      router.reload('/bookmark');
-    } catch (e) {
-      setErrMsg(true);
-    }
+    const { data } = await postSignUp({
+      email,
+      password,
+      username,
+    });
+
+    localStorage.setItem('jwt', data.data.token);
+    localStorage.setItem('username', data.data.username);
+
+    handleClose();
+    router.reload('/bookmark');
   };
-
-  const [form] = Form.useForm();
 
   return (
     <>
@@ -68,22 +66,12 @@ const SignUpForm = ({ handleClose }) => {
         scrollToFirstError
       >
         <Form.Item
-          name="ID"
-          label="아이디"
+          name="email"
+          label="이메일"
           rules={[
             {
               required: true,
-              message: '아이디를 입력해주세요.',
-            },
-            {
-              max: 15,
-              message: '15자 이내의 아이디를 입력해주세요.',
-            },
-            {
-              validator: () =>
-                errMsg
-                  ? Promise.reject(new Error('중복된 아이디입니다.'))
-                  : Promise.resolve(),
+              message: '이메일을 입력해주세요.',
             },
           ]}
         >
@@ -97,10 +85,6 @@ const SignUpForm = ({ handleClose }) => {
             {
               required: true,
               message: '비밀번호를 입력해주세요.',
-            },
-            {
-              min: 10,
-              message: '10자 이상의 비밀번호를 입력해주세요.',
             },
           ]}
           hasFeedback
@@ -135,7 +119,7 @@ const SignUpForm = ({ handleClose }) => {
         </Form.Item>
 
         <Form.Item
-          name="nickname"
+          name="username"
           label="닉네임"
           rules={[
             {
