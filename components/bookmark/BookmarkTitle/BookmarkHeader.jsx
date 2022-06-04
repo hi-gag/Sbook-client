@@ -1,17 +1,43 @@
-import { Switch, Checkbox, Button, Input } from 'antd';
+import { Switch, Checkbox, Button, Input, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
 import { bookmarkViewModeAtom } from '../../../atoms';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useQueryClient } from 'react-query';
+import { postBookmarkTopic, postBookmark } from '../../../api';
 
-function BookmarkHeader({ shared }) {
+function BookmarkHeader({ shared, bookmarkId }) {
   const router = useRouter();
   const [viewMode, setViewMode] = useRecoilState(bookmarkViewModeAtom);
+  const queryClient = useQueryClient();
+  const [form] = Form.useForm();
 
   const handleChange = () => {
     setViewMode((mode) => (mode === 'normal' ? 'memo' : 'normal'));
   };
+
+  const submitNewBookmark = async () => {
+    const { url } = form.getFieldValue();
+    const token = window.localStorage.getItem('jwt') ?? '';
+
+    // 토픽서버에 URL 넘기기
+    const {
+      data: { bookmarkListId, ...bookmarkBody },
+    } = await postBookmarkTopic(bookmarkId, url);
+
+    // 내용을 자바서버에 넘기기
+    await postBookmark(token, bookmarkId, {
+      ...bookmarkBody,
+      createdAt: '임의값',
+      importance: 1,
+      memo: '',
+    });
+
+    // 쿼리 리프레시(북마크 ID 필요함)
+    queryClient.invalidateQueries(`bookmark-${bookmarkListId}`);
+  };
+
   return (
     <section className="bg-zinc-900 w-full pt-8 pb-6 mb-4 flex justify-between align-center po-sticky">
       <div className="section-width">
@@ -20,10 +46,16 @@ function BookmarkHeader({ shared }) {
       </div>
 
       <div className="flex space-between section-width">
-        <Input placeholder="추가할 URL 입력" />
-        <div className="ml-2">
-          <Button type="primary">입력</Button>
-        </div>
+        <Form form={form} name="bookmark-list-create">
+          <div className="ml-2">
+            <Form.Item name="url">
+              <Input ref placeholder="추가할 URL 입력" />
+            </Form.Item>
+          </div>
+          <Button type="primary" onClick={submitNewBookmark}>
+            입력
+          </Button>
+        </Form>
       </div>
 
       <div className="flex space-between justify-end section-width">
@@ -55,6 +87,7 @@ function BookmarkHeader({ shared }) {
 
 BookmarkHeader.propTypes = {
   shared: PropTypes.bool.isRequired,
+  bookmarkId: PropTypes.number.isRequired,
 };
 
 export default BookmarkHeader;

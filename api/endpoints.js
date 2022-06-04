@@ -23,6 +23,20 @@ export const getBookmark = (token, bookmarkId) =>
 export const getInsights = (bookmarkId) =>
   axiosTopicClient.get(`/bookmark/${bookmarkId}/recommends`);
 
+export const postBookmarkTopic = (bookmarkId, url) =>
+  axiosTopicClient.post(`/bookmark/${bookmarkId}/recommends`, {
+    url,
+  });
+
+export const postBookmark = (token, bookmarkId, bookmarkIdBody) =>
+  axiosTopicClient.post(
+    `/bookmarks/${bookmarkId}`,
+    { ...bookmarkIdBody },
+    {
+      headers: { Authorization: token },
+    },
+  );
+
 export const postBookmarkLists = (token, bookmarkListsBody) =>
   axiosClient.post(
     `/bookmarks`,

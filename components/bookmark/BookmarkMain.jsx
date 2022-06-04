@@ -42,7 +42,10 @@ function BookmarkMain({ bookmarkId }) {
       {!isBookmarkListLoading && !isBookmarkListError && (
         <>
           <BookmarkTitle title={bookmarkList.data.title} />
-          <BookmarkHeader shared={bookmarkList.data.is_shared} />
+          <BookmarkHeader
+            shared={bookmarkList.data.is_shared}
+            bookmarkId={bookmarkId}
+          />
           <BookmarkCardList bookmarks={bookmarkList.data.bookmarks} />
         </>
       )}
