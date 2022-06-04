@@ -29,9 +29,7 @@ function BookmarkHeader({ shared, bookmarkId }) {
     // 내용을 자바서버에 넘기기
     await postBookmark(token, bookmarkId, {
       ...bookmarkBody,
-      createdAt: '임의값',
       importance: 1,
-      memo: '',
     });
 
     // 쿼리 리프레시(북마크 ID 필요함)
