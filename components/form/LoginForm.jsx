@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { useRouter } from 'next/router';
@@ -37,25 +37,20 @@ const tailFormItemLayout = {
 };
 
 const LoginForm = ({ handleClose }) => {
-  const [errMsg, setErrMsg] = useState(false);
   const router = useRouter();
 
   const [form] = Form.useForm();
 
   const submit = async () => {
-    try {
-      const values = form.getFieldValue();
-      const { data } = await postLogin(values);
+    const values = form.getFieldValue();
+    const { data } = await postLogin(values);
 
-      window.localStorage.setItem('jwt', data.data.token);
-      window.localStorage.setItem('username', data.data.username);
+    window.localStorage.setItem('jwt', data.data.token);
+    window.localStorage.setItem('username', data.data.username);
 
-      handleClose();
-      router.reload('/bookmark');
-    } catch (e) {
-      console.log(e);
-      setErrMsg(true);
-    }
+    handleClose();
+    router.reload();
+    router.push('/bookmark');
   };
 
   return (
@@ -94,19 +89,6 @@ const LoginForm = ({ handleClose }) => {
           <Input.Password />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          {errMsg && (
-            <div className="mb-6">
-              <div className="text-[#ff4d4f]">
-                존재하지 않는 ID와 비밀번호입니다.
-              </div>
-              <div className="inline-block text-[#ff4d4f] mr-3">
-                회원가입 하시겠습니까?
-              </div>
-              <a className="inline-block" href="">
-                회원가입
-              </a>
-            </div>
-          )}
           <Button type="primary" htmlType="submit">
             로그인
           </Button>

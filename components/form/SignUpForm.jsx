@@ -53,7 +53,8 @@ const SignUpForm = ({ handleClose }) => {
     localStorage.setItem('username', data.data.username);
 
     handleClose();
-    router.reload('/bookmark');
+    router.reload();
+    router.push('/bookmark');
   };
 
   return (
