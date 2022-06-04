@@ -11,6 +11,7 @@ function BookmarkAddModal({ isVisible, handleClose }) {
     const { title, shared } = form.getFieldValue();
     const token = window.localStorage.getItem('jwt') ?? '';
     try {
+      //TODO 서버에서 ID 발급하면 수정
       await postBookmarkLists(token, { id: '임의값', title, shared });
       queryClient.invalidateQueries('bookmarkList');
       handleClose();
