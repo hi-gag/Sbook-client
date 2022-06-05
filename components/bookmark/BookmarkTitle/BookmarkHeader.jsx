@@ -43,21 +43,21 @@ function BookmarkHeader({ shared, bookmarkId }) {
         <span className="ml-2">공유 여부</span>
       </div>
 
-      <div className="flex space-between section-width">
-        <Form form={form} name="bookmark-list-create">
-          <div className="ml-2">
-            <Form.Item name="url">
-              <Input ref placeholder="추가할 URL 입력" />
-            </Form.Item>
-          </div>
-          <Button type="primary" onClick={submitNewBookmark}>
-            입력
-          </Button>
-        </Form>
-      </div>
+      <Form
+        className="flex space-between section-width"
+        form={form}
+        name="bookmark-list-create"
+      >
+        <Form.Item name="url">
+          <Input ref placeholder="추가할 URL 입력" />
+        </Form.Item>
+        <Button className="ml-4" type="primary" onClick={submitNewBookmark}>
+          입력
+        </Button>
+      </Form>
 
       <div className="flex space-between justify-end section-width">
-        <div className="mr-4 m-auto">
+        <div className="mr-4">
           <Switch
             onChange={handleChange}
             defaultChecked={viewMode === 'memo'}
