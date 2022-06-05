@@ -24,12 +24,13 @@ function BookmarkCard({ bookmark, insightMode = false }) {
     console.log('remove');
     // 삭제 mutation
   };
+  console.log(bookmark);
 
   return (
     <article className="w-fit flex flex-col relative">
       <div className="rounded-t-3xl overflow-hidden h-36">
-        {bookmark.img ? (
-          <img className="h-auto" src={bookmark.img} alt="북마크 이미지" />
+        {bookmark.image ? (
+          <img className="h-auto" src={bookmark.image} alt="북마크 이미지" />
         ) : (
           <div className="bg-zinc-600 w-full h-full flex justify-center">
             <div className="font-logo text-5xl m-auto">스북</div>

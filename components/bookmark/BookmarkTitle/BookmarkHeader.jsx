@@ -54,7 +54,6 @@ function BookmarkHeader({ shared, bookmarkId }) {
           입력
         </Button>
       </Form>
-      ㅎ
       <div className="flex space-between justify-end section-width">
         <div className="mr-4">
           <Switch

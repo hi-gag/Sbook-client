@@ -29,7 +29,7 @@ export const postBookmarkTopic = (bookmarkId, url) =>
   });
 
 export const postBookmark = (token, bookmarkId, bookmarkIdBody) =>
-  axiosTopicClient.post(
+  axiosClient.post(
     `/bookmarks/${bookmarkId}`,
     { ...bookmarkIdBody },
     {
