@@ -30,16 +30,17 @@ function BookmarkMain({ bookmarkId }) {
       return getBookmark(token, bookmarkId);
     },
   });
+  console.log(bookmarkList); // getBookmark의 response 아닌 getBookmarkList의 response 나오는 문제
 
   return (
     <div className="content-wrapper">
       {!isBookmarkListListLoading && !isBookmarkListListError && (
         <BookmarkList
-          bookmarkListList={bookmarkListList.results}
+          bookmarkListList={bookmarkListList.data.data}
           bookmarkId={bookmarkId}
         />
       )}
-      {!isBookmarkListLoading && !isBookmarkListError && (
+      {/* {!isBookmarkListLoading && !isBookmarkListError && (
         <>
           <BookmarkTitle title={bookmarkList.data.title} />
           <BookmarkHeader
@@ -48,8 +49,8 @@ function BookmarkMain({ bookmarkId }) {
           />
           <BookmarkCardList bookmarks={bookmarkList.data.bookmarks} />
         </>
-      )}
-    </div>
+      )} */}
+    </div>  
   );
 }
 
