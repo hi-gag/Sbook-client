@@ -42,7 +42,6 @@ function BookmarkHeader({ shared, bookmarkId }) {
         <Checkbox checked={shared} />
         <span className="ml-2">공유 여부</span>
       </div>
-
       <Form
         className="flex space-between section-width"
         form={form}
@@ -55,7 +54,7 @@ function BookmarkHeader({ shared, bookmarkId }) {
           입력
         </Button>
       </Form>
-
+      ㅎ
       <div className="flex space-between justify-end section-width">
         <div className="mr-4">
           <Switch

@@ -33,7 +33,7 @@ function BookmarkMain({ bookmarkId }) {
   });
 
   const bookmarkTitle =
-    bookmarkListList.data.data.find((element) => element.id === +bookmarkId)
+    bookmarkListList?.data?.data.find((element) => element.id === +bookmarkId)
       ?.title ?? '';
 
   return (

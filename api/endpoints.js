@@ -24,7 +24,7 @@ export const getInsights = (bookmarkId) =>
   axiosTopicClient.get(`/bookmark/${bookmarkId}/recommends`);
 
 export const postBookmarkTopic = (bookmarkId, url) =>
-  axiosTopicClient.post(`/bookmark/${bookmarkId}/recommends`, {
+  axiosTopicClient.post(`/bookmark/${bookmarkId}/new`, {
     url,
   });
 
