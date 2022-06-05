@@ -12,7 +12,7 @@ function BookmarkMain({ bookmarkId }) {
     isLoading: isBookmarkListListLoading,
     isError: isBookmarkListListError,
   } = useQuery({
-    key: 'bookmarkList',
+    queryKey: 'bookmarkList',
     queryFn: () => {
       const token = window.localStorage?.jwt ?? '';
       return getBookmarkList(token);
@@ -24,30 +24,45 @@ function BookmarkMain({ bookmarkId }) {
     isLoading: isBookmarkListLoading,
     isError: isBookmarkListError,
   } = useQuery({
-    key: `bookmark-${bookmarkId}`,
+    queryKey: `bookmark-${bookmarkId}`,
     queryFn: () => {
       const token = window.localStorage?.jwt ?? '';
       return getBookmark(token, bookmarkId);
     },
+    enabled: bookmarkId !== undefined && bookmarkListList !== undefined,
   });
+
+  const bookmarkTitle =
+    bookmarkListList.data.data.find((element) => element.id === +bookmarkId)
+      ?.title ?? '';
 
   return (
     <div className="content-wrapper">
-      {!isBookmarkListListLoading && !isBookmarkListListError && (
-        <BookmarkList
-          bookmarkListList={bookmarkListList.results}
-          bookmarkId={bookmarkId}
-        />
-      )}
-      {!isBookmarkListLoading && !isBookmarkListError && (
+      {!isBookmarkListListLoading &&
+        !isBookmarkListListError &&
+        bookmarkListList.data.data.length && (
+          <BookmarkList
+            bookmarkListList={bookmarkListList.data.data}
+            bookmarkId={1}
+          />
+        )}
+      {!isBookmarkListLoading &&
+      !isBookmarkListError &&
+      bookmarkId &&
+      bookmarkList !== undefined ? (
         <>
-          <BookmarkTitle title={bookmarkList.data.title} />
+          <BookmarkTitle
+            title={bookmarkTitle}
+            owner={bookmarkList.data.data.owner}
+          />
           <BookmarkHeader
-            shared={bookmarkList.data.is_shared}
+            shared={bookmarkList.data.data.isShared}
             bookmarkId={bookmarkId}
           />
-          <BookmarkCardList bookmarks={bookmarkList.data.bookmarks} />
+          <BookmarkCardList bookmarks={bookmarkList.data.data.bookmarks} />
         </>
+      ) : (
+        <div>로딩</div>
       )}
     </div>
   );

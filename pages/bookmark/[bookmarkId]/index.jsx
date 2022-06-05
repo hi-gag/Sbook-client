@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { mockBookmarkList, mockBookmarkListList } from '../../../mock';
 import BookmarkMain from '../../../components/bookmark/BookmarkMain';
 
 export async function getServerSideProps(context) {
@@ -9,8 +8,6 @@ export async function getServerSideProps(context) {
   return {
     props: {
       bookmarkId,
-      bookmarkList: mockBookmarkList[bookmarkId],
-      bookmarkListList: mockBookmarkListList,
     },
   };
 }
@@ -23,8 +20,8 @@ function BookmarkDetail({ bookmarkId }) {
   });
 
   useEffect(() => {
-    const jwt = window.sessionStorage.getItem('jwt');
-    const username = window.sessionStorage.getItem('username');
+    const jwt = window.localStorage.getItem('jwt');
+    const username = window.localStorage.getItem('username');
 
     setAuth({
       username,

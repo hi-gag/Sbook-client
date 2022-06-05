@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 
-function BookmarkTitle({ title }) {
+function BookmarkTitle({ title, owner }) {
   return (
     <section className="container ">
       <div className="h-64 flex justify-center">
         <div className="flex flex-col align-center justify-center">
           <div className="text-4xl font-bold mb-4 text-center">{title}</div>
-          <div className="h-4 text-center">작성자: 누구누구</div>
+          <div className="h-4 text-center">작성자: {owner}</div>
         </div>
       </div>
       <style jsx>{`
@@ -21,6 +21,7 @@ function BookmarkTitle({ title }) {
 
 BookmarkTitle.propTypes = {
   title: PropTypes.string.isRequired,
+  owner: PropTypes.string.isRequired,
 };
 
 export default BookmarkTitle;
