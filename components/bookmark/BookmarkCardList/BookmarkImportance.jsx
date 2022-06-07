@@ -11,7 +11,7 @@ const importanceColor = [
   '#FF0000',
 ];
 
-function BookmarkImportance({ importance }) {
+function BookmarkImportance({ importance, handleImportance }) {
   const [isUpdateMode, setIsUpdateMode] = useState(false);
 
   return (
@@ -33,6 +33,7 @@ function BookmarkImportance({ importance }) {
                     height: '15px',
                     borderRadius: '50%',
                   }}
+                  onClick={handleImportance}
                 >
                   {id}
                 </div>
@@ -86,6 +87,7 @@ function BookmarkImportance({ importance }) {
 
 BookmarkImportance.propTypes = {
   importance: PropTypes.number.isRequired,
+  handleImportance: PropTypes.func,
 };
 
 export default BookmarkImportance;
