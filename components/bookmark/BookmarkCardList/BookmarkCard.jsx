@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { bookmarkViewModeAtom } from '../../../atoms';
 import { useState, useRef, useEffect } from 'react';
 import BookmarkImportance from './BookmarkImportance';
-import { putBookmark } from '../../../api';
+import { putBookmark, deleteBookmark } from '../../../api';
 import { useQueryClient } from 'react-query';
 
 function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
@@ -28,32 +28,28 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
   const changeMemo = async () => {
     const token = window.localStorage.getItem('jwt') ?? '';
     const changedMemo = memoTextareaRef.current.value;
-
     await putBookmark(token, bookmark.id, {
       ...bookmark,
       memo: changedMemo,
     })
-
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
   }
 
   const changeImportance = async (e) => {
     const token = window.localStorage.getItem('jwt') ?? '';
     const changedImportance = e.target.innerText;
-
     await putBookmark(token, bookmark.id, {
       ...bookmark,
       importance: changedImportance,
     })
-
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
   }
 
-  const removeBookmark = () => {
-    console.log('remove');
-    // 삭제 mutation
+  const removeBookmark = async () => {
+    const token = window.localStorage.getItem('jwt') ?? '';
+    await deleteBookmark(token, bookmarkId, bookmark.id)
+    queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
   };
-  // console.log(bookmark);
 
   return (
     <article className="w-fit flex flex-col relative">

@@ -54,3 +54,11 @@ export const putBookmark = (token, bookmarkCardId, bookmarkBody ) =>
       headers: { Authorization: token },
     },
   );
+
+  // 북마크 리스트에서 특정 북마크 삭제
+  export const deleteBookmark = (token, bookmarkId, bookmarkCardId) => 
+  axiosClient.delete(
+    `/bookmarks/${bookmarkId}/bookmark/${bookmarkCardId}`, {
+      headers: { Authorization: token },
+    },
+  );
