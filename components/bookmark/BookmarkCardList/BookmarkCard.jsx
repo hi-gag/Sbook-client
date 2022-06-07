@@ -28,10 +28,22 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
   const changeMemo = async () => {
     const token = window.localStorage.getItem('jwt') ?? '';
     const changedMemo = memoTextareaRef.current.value;
-    
+
     await putBookmark(token, bookmark.id, {
       ...bookmark,
       memo: changedMemo,
+    })
+
+    queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
+  }
+
+  const changeImportance = async (e) => {
+    const token = window.localStorage.getItem('jwt') ?? '';
+    const changedImportance = e.target.innerText;
+
+    await putBookmark(token, bookmark.id, {
+      ...bookmark,
+      importance: changedImportance,
     })
 
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
@@ -56,7 +68,7 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
       </div>
       {!insightMode && (
         <div className="absolute top-3 left-3">
-          <BookmarkImportance importance={bookmark.importance} />
+          <BookmarkImportance importance={bookmark.importance} handleImportance={changeImportance} />
         </div>
       )}
       {!insightMode && (
