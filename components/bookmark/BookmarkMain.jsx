@@ -59,7 +59,7 @@ function BookmarkMain({ bookmarkId }) {
             shared={bookmarkList.data.data.isShared}
             bookmarkId={bookmarkId}
           />
-          <BookmarkCardList bookmarks={bookmarkList.data.data.bookmarks} />
+          <BookmarkCardList bookmarkId={bookmarkId} bookmarks={bookmarkList.data.data.bookmarks} />
         </>
       ) : (
         <div>로딩</div>
