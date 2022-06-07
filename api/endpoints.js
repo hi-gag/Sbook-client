@@ -45,3 +45,12 @@ export const postBookmarkLists = (token, bookmarkListsBody) =>
       headers: { Authorization: token },
     },
   );
+
+export const putBookmark = (token, bookmarkCardId, bookmarkBody ) => 
+  axiosClient.put(
+    `/bookmark/${bookmarkCardId}`,
+    { ...bookmarkBody },
+    {
+      headers: { Authorization: token },
+    },
+  );

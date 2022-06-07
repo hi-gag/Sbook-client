@@ -3,10 +3,13 @@ import { useRecoilValue } from 'recoil';
 import { bookmarkViewModeAtom } from '../../../atoms';
 import { useState, useRef, useEffect } from 'react';
 import BookmarkImportance from './BookmarkImportance';
+import { putBookmark } from '../../../api';
+import { useQueryClient } from 'react-query';
 
-function BookmarkCard({ bookmark, insightMode = false }) {
+function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
   const viewMode = useRecoilValue(bookmarkViewModeAtom);
   const [isMemoEditable, setIsMemoEditable] = useState(false);
+  const queryClient = useQueryClient();
 
   const memoTextareaRef = useRef(null);
 
@@ -17,14 +20,28 @@ function BookmarkCard({ bookmark, insightMode = false }) {
   }, [isMemoEditable]);
 
   const handleMemoEditableButtonClick = () => {
+    console.log(isMemoEditable)
     setIsMemoEditable((s) => !s);
+    isMemoEditable ? changeMemo() : null;
   };
+
+  const changeMemo = async () => {
+    const token = window.localStorage.getItem('jwt') ?? '';
+    const changedMemo = memoTextareaRef.current.value;
+    
+    await putBookmark(token, bookmark.id, {
+      ...bookmark,
+      memo: changedMemo,
+    })
+
+    queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
+  }
 
   const removeBookmark = () => {
     console.log('remove');
     // 삭제 mutation
   };
-  console.log(bookmark);
+  // console.log(bookmark);
 
   return (
     <article className="w-fit flex flex-col relative">
@@ -104,6 +121,7 @@ function BookmarkCard({ bookmark, insightMode = false }) {
 }
 
 BookmarkCard.propTypes = {
+  bookmarkId: PropTypes.string,
   bookmark: PropTypes.object.isRequired,
   insightMode: PropTypes.bool,
 };
