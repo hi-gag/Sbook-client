@@ -17,6 +17,7 @@ function BookmarkMain({ bookmarkId }) {
       const token = window.localStorage?.jwt ?? '';
       return getBookmarkList(token);
     },
+    enabled: window.localStorage.getItem('jwt') === undefined,
   });
 
   const {
@@ -48,9 +49,7 @@ function BookmarkMain({ bookmarkId }) {
       ) : null}
       {bookmarkId ? (
         <>
-          {!isBookmarkListLoading &&
-          !isBookmarkListError &&
-          bookmarkList !== undefined ? (
+          {!isBookmarkListLoading && bookmarkList !== undefined ? (
             <>
               <BookmarkTitle
                 title={bookmarkTitle}
@@ -60,10 +59,13 @@ function BookmarkMain({ bookmarkId }) {
                 shared={bookmarkList.data.data.isShared}
                 bookmarkId={bookmarkId}
               />
-              <BookmarkCardList bookmarks={bookmarkList.data.data.bookmarks} />
+              <BookmarkCardList
+                bookmarkId={bookmarkId}
+                bookmarks={bookmarkList.data.data.bookmarks}
+              />
             </>
           ) : (
-            <div>로딩</div>
+            <div>{isBookmarkListError ? '권한이 없습니다' : '로딩'}</div>
           )}
         </>
       ) : (

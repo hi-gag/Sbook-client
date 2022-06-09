@@ -20,7 +20,7 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
   }, [isMemoEditable]);
 
   const handleMemoEditableButtonClick = () => {
-    console.log(isMemoEditable)
+    console.log(isMemoEditable);
     setIsMemoEditable((s) => !s);
     isMemoEditable ? changeMemo() : null;
   };
@@ -31,9 +31,11 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
     await putBookmark(token, bookmark.id, {
       ...bookmark,
       memo: changedMemo,
-    })
+    });
+    console.log(bookmarkId, bookmark.id);
+
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
-  }
+  };
 
   const changeImportance = async (e) => {
     const token = window.localStorage.getItem('jwt') ?? '';
@@ -41,13 +43,16 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
     await putBookmark(token, bookmark.id, {
       ...bookmark,
       importance: changedImportance,
-    })
+    });
+    console.log(bookmarkId, 'dd', bookmark.id);
+
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
-  }
+  };
 
   const removeBookmark = async () => {
     const token = window.localStorage.getItem('jwt') ?? '';
-    await deleteBookmark(token, bookmarkId, bookmark.id)
+    await deleteBookmark(token, bookmarkId, bookmark.id);
+    console.log(bookmarkId);
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
   };
 
@@ -64,7 +69,10 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
       </div>
       {!insightMode && (
         <div className="absolute top-3 left-3">
-          <BookmarkImportance importance={bookmark.importance} handleImportance={changeImportance} />
+          <BookmarkImportance
+            importance={bookmark.importance}
+            handleImportance={changeImportance}
+          />
         </div>
       )}
       {!insightMode && (

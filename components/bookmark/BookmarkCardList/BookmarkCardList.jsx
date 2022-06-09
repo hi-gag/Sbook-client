@@ -3,6 +3,7 @@ import BookmarkCard from './BookmarkCard';
 
 function BookmarkCardList({ bookmarkId, bookmarks, insightMode }) {
   // todo id 받아서 토픽서버 키워드 받아오기
+  console.log(bookmarkId);
   return (
     <section className="grid gap-4 grid-cols-3 container pt-12">
       {bookmarks.map((bookmark) => (
