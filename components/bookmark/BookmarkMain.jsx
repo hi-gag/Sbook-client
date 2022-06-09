@@ -7,6 +7,8 @@ import { getBookmarkList, getBookmark } from '../../api';
 import PropTypes from 'prop-types';
 
 function BookmarkMain({ bookmarkId }) {
+  const isAuth = window.localStorage.getItem('jwt') !== undefined;
+
   const {
     data: bookmarkListList,
     isLoading: isBookmarkListListLoading,
@@ -17,7 +19,7 @@ function BookmarkMain({ bookmarkId }) {
       const token = window.localStorage?.jwt ?? '';
       return getBookmarkList(token);
     },
-    enabled: window.localStorage.getItem('jwt') === undefined,
+    enabled: isAuth,
   });
 
   const {
@@ -30,12 +32,21 @@ function BookmarkMain({ bookmarkId }) {
       const token = window.localStorage?.jwt ?? '';
       return getBookmark(token, bookmarkId);
     },
-    enabled: bookmarkId !== undefined && bookmarkListList !== undefined,
+    enabled: bookmarkId !== undefined,
+    retry: 0,
   });
 
   const bookmarkTitle =
     bookmarkListList?.data?.data.find((element) => element.id === +bookmarkId)
       ?.title ?? '';
+
+  if (!isAuth) {
+    return (
+      <div className="content-wrapper">
+        <div>회원가입/로그인을 진행해주세요!</div>
+      </div>
+    );
+  }
 
   return (
     <div className="content-wrapper">
@@ -47,6 +58,11 @@ function BookmarkMain({ bookmarkId }) {
           bookmarkId={1}
         />
       ) : null}
+      {isBookmarkListError && (
+        <div className="content-wrapper">
+          <div>권한이 없습니다</div>
+        </div>
+      )}
       {bookmarkId ? (
         <>
           {!isBookmarkListLoading && bookmarkList !== undefined ? (
@@ -64,9 +80,7 @@ function BookmarkMain({ bookmarkId }) {
                 bookmarks={bookmarkList.data.data.bookmarks}
               />
             </>
-          ) : (
-            <div>{isBookmarkListError ? '권한이 없습니다' : '로딩'}</div>
-          )}
+          ) : null}
         </>
       ) : (
         <div>상단의 북마크를 선택해주세요</div>
