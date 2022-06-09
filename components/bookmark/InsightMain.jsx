@@ -60,6 +60,7 @@ function InsightMain({ bookmarkId }) {
         <div className="content-wrapper" id="bookmarks">
           {!insightLoading && !insightError && insightData !== undefined && (
             <BookmarkCardList
+              bookmarkId={bookmarkId}
               insightMode
               bookmarks={insightData.data.recommends.map((recommend) => ({
                 ...recommend,

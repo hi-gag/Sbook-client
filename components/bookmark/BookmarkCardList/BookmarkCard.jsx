@@ -3,10 +3,13 @@ import { useRecoilValue } from 'recoil';
 import { bookmarkViewModeAtom } from '../../../atoms';
 import { useState, useRef, useEffect } from 'react';
 import BookmarkImportance from './BookmarkImportance';
+import { putBookmark, deleteBookmark } from '../../../api';
+import { useQueryClient } from 'react-query';
 
-function BookmarkCard({ bookmark, insightMode = false }) {
+function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
   const viewMode = useRecoilValue(bookmarkViewModeAtom);
   const [isMemoEditable, setIsMemoEditable] = useState(false);
+  const queryClient = useQueryClient();
 
   const memoTextareaRef = useRef(null);
 
@@ -17,14 +20,36 @@ function BookmarkCard({ bookmark, insightMode = false }) {
   }, [isMemoEditable]);
 
   const handleMemoEditableButtonClick = () => {
+    console.log(isMemoEditable)
     setIsMemoEditable((s) => !s);
+    isMemoEditable ? changeMemo() : null;
   };
 
-  const removeBookmark = () => {
-    console.log('remove');
-    // 삭제 mutation
+  const changeMemo = async () => {
+    const token = window.localStorage.getItem('jwt') ?? '';
+    const changedMemo = memoTextareaRef.current.value;
+    await putBookmark(token, bookmark.id, {
+      ...bookmark,
+      memo: changedMemo,
+    })
+    queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
+  }
+
+  const changeImportance = async (e) => {
+    const token = window.localStorage.getItem('jwt') ?? '';
+    const changedImportance = e.target.innerText;
+    await putBookmark(token, bookmark.id, {
+      ...bookmark,
+      importance: changedImportance,
+    })
+    queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
+  }
+
+  const removeBookmark = async () => {
+    const token = window.localStorage.getItem('jwt') ?? '';
+    await deleteBookmark(token, bookmarkId, bookmark.id)
+    queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
   };
-  console.log(bookmark);
 
   return (
     <article className="w-fit flex flex-col relative">
@@ -39,7 +64,7 @@ function BookmarkCard({ bookmark, insightMode = false }) {
       </div>
       {!insightMode && (
         <div className="absolute top-3 left-3">
-          <BookmarkImportance importance={bookmark.importance} />
+          <BookmarkImportance importance={bookmark.importance} handleImportance={changeImportance} />
         </div>
       )}
       {!insightMode && (
@@ -104,6 +129,7 @@ function BookmarkCard({ bookmark, insightMode = false }) {
 }
 
 BookmarkCard.propTypes = {
+  bookmarkId: PropTypes.string,
   bookmark: PropTypes.object.isRequired,
   insightMode: PropTypes.bool,
 };
