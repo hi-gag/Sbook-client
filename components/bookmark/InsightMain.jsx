@@ -39,8 +39,6 @@ function InsightMain({ bookmarkId }) {
     },
   });
 
-  console.log(insightData, '인싸데이터');
-
   return (
     <>
       <div className="bg-zinc-700 rounded-3xl w-full xl:w-[1000px]">

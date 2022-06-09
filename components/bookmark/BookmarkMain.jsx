@@ -72,6 +72,7 @@ function BookmarkMain({ bookmarkId }) {
                 owner={bookmarkList.data.data.owner}
               />
               <BookmarkHeader
+                bookmarkTitle={bookmarkTitle}
                 shared={bookmarkList.data.data.isShared}
                 bookmarkId={bookmarkId}
               />

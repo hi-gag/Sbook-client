@@ -20,7 +20,6 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
   }, [isMemoEditable]);
 
   const handleMemoEditableButtonClick = () => {
-    console.log(isMemoEditable);
     setIsMemoEditable((s) => !s);
     isMemoEditable ? changeMemo() : null;
   };
@@ -32,7 +31,6 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
       ...bookmark,
       memo: changedMemo,
     });
-    console.log(bookmarkId, bookmark.id);
 
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
   };
@@ -44,7 +42,6 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
       ...bookmark,
       importance: changedImportance,
     });
-    console.log(bookmarkId, 'dd', bookmark.id);
 
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
   };
@@ -52,7 +49,6 @@ function BookmarkCard({ bookmarkId, bookmark, insightMode = false }) {
   const removeBookmark = async () => {
     const token = window.localStorage.getItem('jwt') ?? '';
     await deleteBookmark(token, bookmarkId, bookmark.id);
-    console.log(bookmarkId);
     queryClient.invalidateQueries(`bookmark-${bookmarkId}`);
   };
 

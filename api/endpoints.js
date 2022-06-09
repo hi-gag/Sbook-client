@@ -46,7 +46,7 @@ export const postBookmarkLists = (token, bookmarkListsBody) =>
     },
   );
 
-export const putBookmark = (token, bookmarkCardId, bookmarkBody ) => 
+export const putBookmark = (token, bookmarkCardId, bookmarkBody) =>
   axiosClient.put(
     `/bookmark/${bookmarkCardId}`,
     { ...bookmarkBody },
@@ -55,10 +55,17 @@ export const putBookmark = (token, bookmarkCardId, bookmarkBody ) =>
     },
   );
 
-  // 북마크 리스트에서 특정 북마크 삭제
-  export const deleteBookmark = (token, bookmarkId, bookmarkCardId) => 
-  axiosClient.delete(
-    `/bookmarks/${bookmarkId}/bookmark/${bookmarkCardId}`, {
+export const putBookmarkList = (token, bookmarkId, bookmarkListBody) =>
+  axiosClient.put(
+    `/bookmarks/${bookmarkId}`,
+    { ...bookmarkListBody },
+    {
       headers: { Authorization: token },
     },
   );
+
+// 북마크 리스트에서 특정 북마크 삭제
+export const deleteBookmark = (token, bookmarkId, bookmarkCardId) =>
+  axiosClient.delete(`/bookmarks/${bookmarkId}/bookmark/${bookmarkCardId}`, {
+    headers: { Authorization: token },
+  });

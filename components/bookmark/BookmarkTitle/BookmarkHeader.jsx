@@ -5,10 +5,10 @@ import { bookmarkViewModeAtom } from '../../../atoms';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useQueryClient } from 'react-query';
-import { postBookmarkTopic, postBookmark } from '../../../api';
+import { postBookmarkTopic, postBookmark, putBookmarkList } from '../../../api';
 import { useState } from 'react';
 
-function BookmarkHeader({ shared, bookmarkId }) {
+function BookmarkHeader({ shared, bookmarkId, bookmarkTitle }) {
   const router = useRouter();
   const [viewMode, setViewMode] = useRecoilState(bookmarkViewModeAtom);
   const queryClient = useQueryClient();
@@ -45,10 +45,20 @@ function BookmarkHeader({ shared, bookmarkId }) {
     // 토픽서버에 URL 넘기기
   };
 
+  const handleShareChange = async (e) => {
+    const token = window.localStorage.getItem('jwt') ?? '';
+
+    await putBookmarkList(token, bookmarkId, {
+      title: bookmarkTitle,
+      shared: e.target.checked,
+    });
+    queryClient.invalidateQueries('bookmarkList');
+  };
+
   return (
     <section className="bg-zinc-900 w-full pt-8 pb-6 mb-4 flex justify-between align-center po-sticky">
       <div className="section-width">
-        <Checkbox checked={shared} />
+        <Checkbox defaultChecked={shared} onChange={handleShareChange} />
         <span className="ml-2">공유 여부</span>
       </div>
       <div className="relative">
@@ -98,6 +108,7 @@ function BookmarkHeader({ shared, bookmarkId }) {
 BookmarkHeader.propTypes = {
   shared: PropTypes.bool.isRequired,
   bookmarkId: PropTypes.number.isRequired,
+  bookmarkTitle: PropTypes.string.isRequired,
 };
 
 export default BookmarkHeader;
