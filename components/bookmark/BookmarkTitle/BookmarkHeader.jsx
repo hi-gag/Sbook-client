@@ -52,6 +52,8 @@ function BookmarkHeader({ shared, bookmarkId }) {
         <span className="ml-2">공유 여부</span>
       </div>
       <div className="relative">
+        <div className="absolute text-center top-100">{loadingFallback}</div>
+
         <Form
           className="flex space-between section-width"
           form={form}
@@ -64,7 +66,6 @@ function BookmarkHeader({ shared, bookmarkId }) {
             입력
           </Button>
         </Form>
-        <div className="absolute text-center">{loadingFallback}</div>
       </div>
 
       <div className="flex space-between justify-end section-width">
