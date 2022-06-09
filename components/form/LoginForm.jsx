@@ -50,7 +50,6 @@ const LoginForm = ({ handleClose }) => {
 
     handleClose();
     router.reload();
-    router.push('/bookmark');
   };
 
   return (

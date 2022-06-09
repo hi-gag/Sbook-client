@@ -38,22 +38,30 @@ function BookmarkList({ bookmarkListList, bookmarkId }) {
           북마크 리스트 추가
         </div>
         <BookmarkAddModal isVisible={isShowModal} handleClose={closeModal} />
-        <div ref={scrollRef} className="container flex ">
-          {bookmarkListList.map((bookmarkListInfo) => {
-            const backgroundColor =
-              +bookmarkId === bookmarkListInfo.id
-                ? 'bg-zinc-700'
-                : 'bg-zinc-800';
-            return (
-              <div
-                key={bookmarkListInfo.id}
-                className={`p-2 mr-4 button box ${backgroundColor}`}
-                onClick={() => router.push(`/bookmark/${bookmarkListInfo.id}`)}
-              >
-                {bookmarkListInfo.title}
-              </div>
-            );
-          })}
+        <div ref={scrollRef} className="container flex">
+          {bookmarkListList.length === 0 ? (
+            <div className="mt-2">버튼을 눌러 북마크를 추가해주세요</div>
+          ) : (
+            <>
+              {bookmarkListList.map((bookmarkListInfo) => {
+                const backgroundColor =
+                  +bookmarkId === bookmarkListInfo.id
+                    ? 'bg-zinc-700'
+                    : 'bg-zinc-800';
+                return (
+                  <div
+                    key={bookmarkListInfo.id}
+                    className={`p-2 mr-4 button box ${backgroundColor}`}
+                    onClick={() =>
+                      router.push(`/bookmark/${bookmarkListInfo.id}`)
+                    }
+                  >
+                    {bookmarkListInfo.title}
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
       <style jsx>{`

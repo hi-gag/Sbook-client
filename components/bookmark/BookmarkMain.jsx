@@ -39,30 +39,35 @@ function BookmarkMain({ bookmarkId }) {
   return (
     <div className="content-wrapper">
       {!isBookmarkListListLoading &&
-        !isBookmarkListListError &&
-        bookmarkListList.data.data.length && (
-          <BookmarkList
-            bookmarkListList={bookmarkListList.data.data}
-            bookmarkId={1}
-          />
-        )}
-      {!isBookmarkListLoading &&
-      !isBookmarkListError &&
-      bookmarkId &&
-      bookmarkList !== undefined ? (
+      !isBookmarkListListError &&
+      bookmarkListList !== undefined ? (
+        <BookmarkList
+          bookmarkListList={bookmarkListList.data.data}
+          bookmarkId={1}
+        />
+      ) : null}
+      {bookmarkId ? (
         <>
-          <BookmarkTitle
-            title={bookmarkTitle}
-            owner={bookmarkList.data.data.owner}
-          />
-          <BookmarkHeader
-            shared={bookmarkList.data.data.isShared}
-            bookmarkId={bookmarkId}
-          />
-          <BookmarkCardList bookmarks={bookmarkList.data.data.bookmarks} />
+          {!isBookmarkListLoading &&
+          !isBookmarkListError &&
+          bookmarkList !== undefined ? (
+            <>
+              <BookmarkTitle
+                title={bookmarkTitle}
+                owner={bookmarkList.data.data.owner}
+              />
+              <BookmarkHeader
+                shared={bookmarkList.data.data.isShared}
+                bookmarkId={bookmarkId}
+              />
+              <BookmarkCardList bookmarks={bookmarkList.data.data.bookmarks} />
+            </>
+          ) : (
+            <div>로딩</div>
+          )}
         </>
       ) : (
-        <div>로딩</div>
+        <div>상단의 북마크를 선택해주세요</div>
       )}
     </div>
   );

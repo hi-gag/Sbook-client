@@ -1,6 +1,19 @@
 import Head from 'next/head';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const jwt = window.localStorage.getItem('jwt');
+    const username = window.localStorage.getItem('username');
+
+    if (jwt && username) {
+      router.push('/bookmark');
+    }
+  }, []);
+
   return (
     <>
       <Head>
