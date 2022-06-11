@@ -36,10 +36,6 @@ function BookmarkMain({ bookmarkId }) {
     retry: 0,
   });
 
-  const bookmarkTitle =
-    bookmarkListList?.data?.data.find((element) => element.id === +bookmarkId)
-      ?.title ?? '';
-
   if (!isAuth) {
     return (
       <div className="content-wrapper">
@@ -68,11 +64,11 @@ function BookmarkMain({ bookmarkId }) {
           {!isBookmarkListLoading && bookmarkList !== undefined ? (
             <>
               <BookmarkTitle
-                title={bookmarkTitle}
+                title={bookmarkList.data.data.title}
                 owner={bookmarkList.data.data.owner}
               />
               <BookmarkHeader
-                bookmarkTitle={bookmarkTitle}
+                bookmarkTitle={bookmarkList.data.data.title}
                 shared={bookmarkList.data.data.isShared}
                 bookmarkId={bookmarkId}
               />
